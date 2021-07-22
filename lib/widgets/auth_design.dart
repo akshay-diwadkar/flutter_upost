@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 
 class AuthDesign extends StatelessWidget {
-  const AuthDesign({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Stack(
