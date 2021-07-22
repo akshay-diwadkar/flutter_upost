@@ -140,6 +140,20 @@ class UpostFirestoreService {
     });
   }
 
+  static Future<void> deletePost(Post post) async {
+    await Firestore.instance
+        .collection('posts')
+        .document(post.userId)
+        .collection('usersPosts')
+        .document(post.id)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+
   static Future<List<Post>> fetchAndSetPosts(String userId) async {
     QuerySnapshot _feedSnapshot = await Firestore.instance
         .collection('feed')

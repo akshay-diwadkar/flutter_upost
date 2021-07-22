@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:upost/services/storage_service.dart';
 import 'package:upost/widgets/image_preview.dart';
@@ -65,12 +66,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.didChangeDependencies();
   }
 
-  void _handleImageFromGallery() async {
-    File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (imageFile != null) {
-      //if image file is picked, then update the _profileImage variable
+  _showPopup() {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return SimpleDialog(
+            title: Text(
+              'Select a method for picking image',
+              style: TextStyle(fontSize: 18),
+            ),
+            children: [
+              SimpleDialogOption(
+                child: Text(
+                  'Camera',
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  _handleImage(ImageSource.camera);
+                },
+              ),
+              SimpleDialogOption(
+                child: Text(
+                  'Gallery',
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  _handleImage(ImageSource.gallery);
+                },
+              ),
+              SimpleDialogOption(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _cropImage(File image) async {
+    File croppedImage = await ImageCropper.cropImage(
+      sourcePath: image.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+    );
+    return croppedImage;
+  }
+
+  _handleImage(ImageSource source) async {
+    Navigator.of(context).pop();
+    File _imageFile = await ImagePicker.pickImage(source: source);
+    if (_imageFile != null) {
+      _imageFile = await _cropImage(_imageFile);
       setState(() {
-        _profileImage = imageFile;
+        _profileImage = _imageFile;
       });
     }
   }
@@ -176,7 +231,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ),
                           TextButton.icon(
-                            onPressed: _handleImageFromGallery,
+                            onPressed: _showPopup,
                             icon: Icon(Icons.edit),
                             label: Text(
                               'Change Profile Image',
