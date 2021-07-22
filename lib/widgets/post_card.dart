@@ -120,7 +120,9 @@ class _PostCardState extends State<PostCard> {
                     width: 10,
                   ),
                   CircleAvatar(
-                    backgroundImage: NetworkImage(widget.user.profileImageUrl),
+                    backgroundImage: widget.user.profileImageUrl.isEmpty
+                        ? AssetImage('assets/images/person-placeholder.jpg')
+                        : NetworkImage(widget.user.profileImageUrl),
                   ),
                   SizedBox(
                     width: 20,
