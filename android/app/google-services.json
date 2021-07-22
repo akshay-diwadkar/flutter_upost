@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927124283352",
+    "project_id": "upost-85ac6",
+    "storage_bucket": "upost-85ac6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927124283352:android:313c9f7ad6c238d473dcad",
+        "android_client_info": {
+          "package_name": "com.example.upost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927124283352-me2mtc1me08in00r0s2lura5ovuh419f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl6yy9QsDWZ_axe5Bpg5yuN2QXx71eXQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927124283352-me2mtc1me08in00r0s2lura5ovuh419f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
