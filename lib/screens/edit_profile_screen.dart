@@ -234,10 +234,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width - 100,
-                            child: ElevatedButton.icon(
-                              onPressed: _submit,
+                            child: RaisedButton.icon(
+                              onPressed: _isLoading ? () {} : _submit,
                               icon: Icon(Icons.save),
                               label: Text('Save Profile'),
+                              color: _isLoading
+                                  ? Theme.of(context).disabledColor
+                                  : Theme.of(context).primaryColor,
                             ),
                           ),
                         ],

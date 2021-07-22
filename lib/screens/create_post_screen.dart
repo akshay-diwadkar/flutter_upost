@@ -232,7 +232,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   child: RaisedButton.icon(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40)),
-                    onPressed: _submit,
+                    onPressed: _isLoading ? () {} : _submit,
                     icon: Icon(
                       Icons.post_add_outlined,
                       color: Colors.white,
@@ -241,7 +241,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       'Post it!',
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Theme.of(context).primaryColor,
+                    color: _isLoading
+                        ? Theme.of(context).disabledColor
+                        : Theme.of(context).primaryColor,
                   ),
                 ),
                 SizedBox(
