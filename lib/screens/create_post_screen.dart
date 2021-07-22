@@ -63,16 +63,25 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         context: context,
         builder: (ctx) {
           return SimpleDialog(
-            title: Text('Select a method for picking image'),
+            title: Text(
+              'Select a method for picking image',
+              style: TextStyle(fontSize: 18),
+            ),
             children: [
               SimpleDialogOption(
-                child: Text('Camera'),
+                child: Text(
+                  'Camera',
+                  style: TextStyle(fontSize: 18),
+                ),
                 onPressed: () {
                   _handleImage(ImageSource.camera);
                 },
               ),
               SimpleDialogOption(
-                child: Text('Gallery'),
+                child: Text(
+                  'Gallery',
+                  style: TextStyle(fontSize: 18),
+                ),
                 onPressed: () {
                   _handleImage(ImageSource.gallery);
                 },
@@ -81,7 +90,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Text(
                   'Cancel',
                   style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold),
+                      fontSize: 18,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
                   Navigator.of(ctx).pop();
