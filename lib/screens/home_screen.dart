@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         children: [
           FeedScreen(userId: widget.userId),
-          SearchScreen(),
+          SearchScreen(userId: widget.userId),
           ProfileScreen(userId: widget.userId, isMe: true),
         ],
         onPageChanged: (int value) {

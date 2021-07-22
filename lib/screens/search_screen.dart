@@ -8,7 +8,8 @@ import 'package:upost/services/upost_firestore_service.dart';
 
 class SearchScreen extends StatefulWidget {
   static const routeName = '/search';
-  const SearchScreen({Key key}) : super(key: key);
+  SearchScreen({this.userId});
+  String userId;
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -130,7 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       MaterialPageRoute(
                         builder: (ctx) => ProfileScreen(
                           userId: user.id,
-                          isMe: false,
+                          isMe: user.id == widget.userId,
                         ),
                       ),
                     );
