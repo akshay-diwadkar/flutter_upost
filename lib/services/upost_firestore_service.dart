@@ -10,7 +10,10 @@ class UpostFirestoreService {
   static Future<QuerySnapshot> searchUsers(String searchName) {
     Future<QuerySnapshot> _searchedUsers = Firestore.instance
         .collection('users')
-        .where('username', isGreaterThanOrEqualTo: searchName)
+        .where(
+          'username_lowercase',
+          isGreaterThanOrEqualTo: searchName.toLowerCase(),
+        )
         .getDocuments();
     return _searchedUsers;
   }

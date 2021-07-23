@@ -68,6 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .document(authResult.user.uid)
             .setData({
           'username': username,
+          'username_lowercase': username.toLowerCase(),
           'email': email,
           'followers': '0',
           'following': '0',

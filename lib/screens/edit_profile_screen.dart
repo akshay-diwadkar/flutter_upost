@@ -166,6 +166,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             .updateData(
           {
             'username': username.trim(),
+            'username_lowercase': username.trim().toLowerCase(),
             'bio': bio.trim(),
             'profileImageUrl': imageUrl,
           },
