@@ -1,6 +1,7 @@
 //@dart=2.9
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:upost/models/user.dart';
 import 'package:upost/providers/post.dart';
 
@@ -114,12 +115,12 @@ class UpostFirestoreService {
   }
 
   static Future<void> createPost(Post _post) async {
-    String id;
-    DocumentReference doc = await Firestore.instance
+    await Firestore.instance
         .collection('posts')
         .document(_post.userId)
         .collection('usersPosts')
-        .add({
+        .document(_post.id)
+        .setData({
       'imageUrl': _post.imageUrl,
       'description': _post.description,
       'title': _post.title,
@@ -128,8 +129,7 @@ class UpostFirestoreService {
       'comments': _post.comments,
       'timestamp': _post.timestamp,
     });
-    id = doc.documentID;
-    await Firestore.instance.collection('feed').document(id).setData({
+    await Firestore.instance.collection('feed').document(_post.id).setData({
       'imageUrl': _post.imageUrl,
       'description': _post.description,
       'title': _post.title,
@@ -141,10 +141,57 @@ class UpostFirestoreService {
   }
 
   static Future<void> deletePost(Post post) async {
+    await FirebaseStorage.instance
+        .getReferenceFromUrl(post.imageUrl)
+        .then((storageRef) {
+      storageRef.delete();
+    });
+    await Firestore.instance
+        .collection('likes')
+        .document(post.id)
+        .collection('postLikes')
+        .document(post.userId)
+        .get()
+        .then((doc) async {
+      if (doc.exists) {
+        doc.reference.delete();
+        await Firestore.instance
+            .collection('likes')
+            .document(post.id)
+            .get()
+            .then((d) {
+          if (d.exists) {
+            d.reference.delete();
+          }
+        });
+      }
+    });
+
+    QuerySnapshot querySnapshot = await Firestore.instance
+        .collection('comments')
+        .document(post.id)
+        .collection('postComments')
+        .getDocuments();
+
+    querySnapshot.documents.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+
     await Firestore.instance
         .collection('posts')
         .document(post.userId)
         .collection('usersPosts')
+        .document(post.id)
+        .get()
+        .then((doc) async {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    await Firestore.instance
+        .collection('feed')
         .document(post.id)
         .get()
         .then((doc) {

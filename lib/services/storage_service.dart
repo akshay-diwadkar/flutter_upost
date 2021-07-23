@@ -19,9 +19,7 @@ class StorageService {
     return imageUrl;
   }
 
-  static Future<String> uploadPostImage(String userId, File imageFile) async {
-    String photoId =
-        userId + '_' + Timestamp.fromDate(DateTime.now()).toString();
+  static Future<String> uploadPostImage(File imageFile, String photoId) async {
     File image = await compressImage(photoId, imageFile);
     final storageRef = FirebaseStorage.instance.ref();
     StorageUploadTask uploadTask =

@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
             if (userSnapshot.hasData) {
               return HomeScreen(userId: userSnapshot.data.uid);
             }
-            print(userSnapshot);
             return AuthScreen();
           },
         ),

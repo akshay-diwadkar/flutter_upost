@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:upost/providers/post.dart';
 import 'package:upost/services/storage_service.dart';
 import 'package:upost/services/upost_firestore_service.dart';
+import 'package:uuid/uuid.dart';
 
 class CreatePostScreen extends StatefulWidget {
   static const routeName = '/create';
@@ -129,8 +130,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       });
       FocusScope.of(context).unfocus();
       final me = await FirebaseAuth.instance.currentUser();
+      String photoId = Uuid().v4();
       String postImageUrl =
-          await StorageService.uploadPostImage(me.uid, _image);
+          await StorageService.uploadPostImage(_image, photoId);
       Post _post = Post(
         imageUrl: postImageUrl,
         description: _description,
@@ -139,10 +141,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         title: _title,
         timestamp: Timestamp.fromDate(DateTime.now()),
         userId: me.uid,
+        id: photoId,
       );
       await UpostFirestoreService.createPost(_post);
 
-      // _descriptionController.clear();
       setState(() {
         _isLoading = false;
         _description = '';

@@ -32,6 +32,7 @@ class _PostCardState extends State<PostCard> {
   bool isLiked = false;
   int likeCount = 0;
   bool likeAnimation = false;
+  bool isLoading = false;
   bool isLoadingLikeStatus;
 
   @override
@@ -89,6 +90,17 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
+  _handleDeletion() async {
+    setState(() {
+      isLoading = true;
+    });
+    await UpostFirestoreService.deletePost(widget.post);
+    setState(() {
+      isLoading = false;
+    });
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -96,6 +108,7 @@ class _PostCardState extends State<PostCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (isLoading) LinearProgressIndicator(),
             SizedBox(
               height: 10,
             ),
@@ -200,21 +213,40 @@ class _PostCardState extends State<PostCard> {
               height: 10,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  color: Colors.pink,
-                  onPressed: _toggle,
-                  icon: isLiked
-                      ? Icon(Icons.favorite)
-                      : Icon(Icons.favorite_outline),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text('${likeCount.toString()} likes'),
-                SizedBox(
-                  width: 10,
+                if (widget.softWrap && widget.isMe)
+                  TextButton.icon(
+                    onPressed: _handleDeletion,
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.black,
+                    ),
+                    label: Text('Delete post'),
+                  ),
+                if (!widget.softWrap || !widget.isMe)
+                  SizedBox(
+                    width: 10,
+                    height: 10,
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      color: Colors.pink,
+                      onPressed: _toggle,
+                      icon: isLiked
+                          ? Icon(Icons.favorite)
+                          : Icon(Icons.favorite_outline),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('${likeCount.toString()} likes'),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
                 ),
               ],
             ),
