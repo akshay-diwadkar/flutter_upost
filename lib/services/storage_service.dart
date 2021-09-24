@@ -12,21 +12,21 @@ class StorageService {
     String photoId = userId;
     File image = await compressImage(photoId, imageFile);
     final storageRef = FirebaseStorage.instance.ref();
-    StorageUploadTask uploadTask =
+    UploadTask uploadTask =
         storageRef.child('images/users/userProfile_$photoId').putFile(image);
-    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-    String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
-    return imageUrl;
+    var imageUrl = await (await uploadTask).ref.getDownloadURL();
+    String urlOfImage = imageUrl.toString();
+    return urlOfImage;
   }
 
   static Future<String> uploadPostImage(File imageFile, String photoId) async {
     File image = await compressImage(photoId, imageFile);
     final storageRef = FirebaseStorage.instance.ref();
-    StorageUploadTask uploadTask =
+    UploadTask uploadTask =
         storageRef.child('images/posts/post_$photoId').putFile(image);
-    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-    String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
-    return imageUrl;
+    var imageUrl = await (await uploadTask).ref.getDownloadURL();
+    String urlOfImage = imageUrl.toString();
+    return urlOfImage;
   }
 
   static Future<File> compressImage(String photoId, File image) async {

@@ -26,7 +26,7 @@ class Post with ChangeNotifier {
 
   factory Post.fromDoc(DocumentSnapshot doc) {
     return Post(
-      id: doc.documentID,
+      id: doc.id,
       imageUrl: doc['imageUrl'],
       description: doc['description'],
       likes: doc['likes'],

@@ -160,10 +160,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           imageUrl = await StorageService.uploadUserProfileImage(
               imageUrl, userId, _profileImage);
         }
-        await Firestore.instance
-            .collection('users')
-            .document(userId)
-            .updateData(
+        await FirebaseFirestore.instance.collection('users').doc(userId).update(
           {
             'username': username.trim(),
             'username_lowercase': username.trim().toLowerCase(),

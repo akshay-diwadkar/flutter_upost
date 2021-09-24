@@ -17,7 +17,7 @@ class PostDetailsScreen extends StatefulWidget {
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
   Post newPost;
-  User _user;
+  CustomUser _user;
   bool isLoading = false;
   @override
   void initState() {
@@ -30,12 +30,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     setState(() {
       isLoading = true;
     });
-    User user = await UpostFirestoreService.getUserById(widget.post.userId);
-    DocumentSnapshot documentSnapshot = await Firestore.instance
+    CustomUser user =
+        await UpostFirestoreService.getUserById(widget.post.userId);
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
         .collection('posts')
-        .document(widget.post.userId)
+        .doc(widget.post.userId)
         .collection('usersPosts')
-        .document(widget.post.id)
+        .doc(widget.post.id)
         .get();
     newPost = Post.fromDoc(documentSnapshot);
     setState(() {

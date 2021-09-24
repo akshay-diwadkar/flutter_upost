@@ -28,7 +28,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         if (!snapshot.hasData) {
           return SizedBox.shrink();
         }
-        User user = snapshot.data;
+        CustomUser user = snapshot.data;
         return Padding(
           padding: EdgeInsets.all(8.0),
           child: ListTile(
@@ -132,9 +132,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
       body: Column(
         children: [
           StreamBuilder(
-            stream: Firestore.instance
+            stream: FirebaseFirestore.instance
                 .collection('comments')
-                .document(widget.post.id)
+                .doc(widget.post.id)
                 .collection('postComments')
                 .orderBy('timestamp', descending: true)
                 .snapshots(),

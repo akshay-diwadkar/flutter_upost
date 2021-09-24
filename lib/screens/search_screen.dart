@@ -112,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             }
 
-            if (snapshot.data.documents.length == 0) {
+            if (snapshot.data.docs.length == 0) {
               return Center(
                 //if _users list is empty, display "no users found"
                 child: Text('No users found'),
@@ -120,9 +120,9 @@ class _SearchScreenState extends State<SearchScreen> {
             }
             return ListView.builder(
               //else build a listTile for each user in the _users list
-              itemCount: snapshot.data.documents.length,
+              itemCount: snapshot.data.docs.length,
               itemBuilder: (ctx, i) {
-                User user = User.fromDoc(snapshot.data.documents[i]);
+                CustomUser user = CustomUser.fromDoc(snapshot.data.docs[i]);
                 return GestureDetector(
                   onTap: () {
                     //if tapped on the ListTile of a user, it will take it to that user's profile

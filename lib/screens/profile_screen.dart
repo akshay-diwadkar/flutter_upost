@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  _buildProfileInfo(User user) {
+  _buildProfileInfo(CustomUser user) {
     return Column(
       children: [
         if (_isLoading) LinearProgressIndicator(),
@@ -231,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _displayButton(User user) {
+  Widget _displayButton(CustomUser user) {
     return widget.isMe
         ? RaisedButton.icon(
             shape:
@@ -306,9 +306,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: FutureBuilder(
-        future: Firestore.instance
+        future: FirebaseFirestore.instance
             .collection('users')
-            .document(widget.userId)
+            .doc(widget.userId)
             .get(),
         builder: (ctx, snapshot) {
           if (!snapshot.hasData) {
@@ -316,7 +316,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          User user = User.fromDoc(snapshot.data);
+          CustomUser user = CustomUser.fromDoc(snapshot.data);
           return ListView(
             children: [
               _buildProfileInfo(user),

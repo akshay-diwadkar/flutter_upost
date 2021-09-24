@@ -1,12 +1,9 @@
 //@dart=2.9
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 
-class User with ChangeNotifier {
+class CustomUser with ChangeNotifier {
   String id;
   String username;
   String email;
@@ -16,7 +13,7 @@ class User with ChangeNotifier {
   String profileImageUrl;
   String isVerified;
 
-  User({
+  CustomUser({
     this.id,
     this.username,
     this.email,
@@ -27,9 +24,9 @@ class User with ChangeNotifier {
     this.isVerified = 'false',
   });
 
-  factory User.fromDoc(DocumentSnapshot doc) {
-    return User(
-      id: doc.documentID,
+  factory CustomUser.fromDoc(DocumentSnapshot doc) {
+    return CustomUser(
+      id: doc.id,
       username: doc['username'],
       email: doc['email'],
       bio: doc['bio'],

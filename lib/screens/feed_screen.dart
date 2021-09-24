@@ -99,7 +99,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        User user = snapshot.data;
+                        CustomUser user = snapshot.data;
                         return PostCard(
                           post: _posts[index],
                           user: user,

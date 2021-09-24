@@ -19,7 +19,7 @@ class PostCard extends StatefulWidget {
     this.myUserId,
   });
   Post post;
-  User user;
+  CustomUser user;
   bool isMe;
   bool softWrap;
   String myUserId;

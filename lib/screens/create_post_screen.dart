@@ -129,7 +129,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         _isLoading = true;
       });
       FocusScope.of(context).unfocus();
-      final me = await FirebaseAuth.instance.currentUser();
+      final me = FirebaseAuth.instance.currentUser;
       String photoId = Uuid().v4();
       String postImageUrl =
           await StorageService.uploadPostImage(_image, photoId);
